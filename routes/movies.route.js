@@ -6,10 +6,11 @@ import {
   deleteMovie,
   updateMovie,
 } from "../services/getAllMovies.js";
+import { auth } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.get("/", async function (request, response) {
+router.get("/", auth, async function (request, response) {
   const moviesList = await getAllMovies();
   response.send(moviesList);
 });
@@ -30,7 +31,7 @@ router.post("/", async function (request, response) {
   response.send(movies);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   let { id } = req.params;
 
   const result = await deleteMovie(id);
